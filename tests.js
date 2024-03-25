@@ -24,7 +24,7 @@ class WcTests {
 
   testWcHTML(firstDate, lastDate, expected) {
     const div = document.createElement('div');
-    const wcHTML = new WcHTML(firstDate, lastDate, div);
+    const wcHTML = new WcHTML({ firstDate, lastDate, body: div });
     let warnFlag = false;
 
     if (div.querySelectorAll('div').length !== expected) {

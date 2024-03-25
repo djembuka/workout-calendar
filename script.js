@@ -3,36 +3,102 @@ class WorkoutCalendar {
     if (!container) return;
 
     this.wcContainer = container;
-    this.wcContainer.classList.add('wc-container');
+    this.current = new Date();
+    this.current.setDate(1);
 
+    this.init();
+  }
+
+  init() {
+    this.createContainer();
+    this.createHeaders();
+    this.createBody();
+    this.createDays();
+  }
+
+  createContainer() {
+    this.wcContainer.classList.add('wc-container');
+  }
+
+  createHeaders() {
+    const monthsArray = [
+      'Январь',
+      'Февраль',
+      'Март',
+      'Апрель',
+      'Май',
+      'Июнь',
+      'Июль',
+      'Август',
+      'Сентябрь',
+      'Октябрь',
+      'Ноябрь',
+      'Декабрь',
+    ];
+    const daysArray = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
+    this.wcHeaders = document.createElement('div');
+    this.wcHeaders.classList.add('wc-headers');
+    this.wcContainer.appendChild(this.wcHeaders);
+
+    //month
+    this.wcMonth = document.createElement('div');
+    this.wcMonth.classList.add('wc-month');
+    this.wcMonth.textContent = `${
+      monthsArray[this.current.getMonth()]
+    } ${this.current.getFullYear()}`;
+    this.wcHeaders.appendChild(this.wcMonth);
+
+    //days
+    this.wcDays = document.createElement('div');
+    this.wcDays.classList.add('wc-days');
+    this.wcDays.innerHTML = daysArray.map((d) => `<span>${d}</span>`).join('');
+    this.wcHeaders.appendChild(this.wcDays);
+  }
+
+  createBody() {
     this.wcBody = document.createElement('div');
     this.wcBody.classList.add('wc-body');
     this.wcContainer.appendChild(this.wcBody);
+  }
 
+  createDays() {
     const wcFirstLastDates = new WcFirstLastDates(
-      new Date().getFullYear(),
-      new Date().getMonth()
+      this.current.getFullYear(),
+      this.current.getMonth()
     );
 
-    new WcHTML(
-      wcFirstLastDates.firstDate,
-      wcFirstLastDates.lastDate,
-      this.wcBody
-    );
+    let firstDateDay = new Date();
+    firstDateDay.setDate(1);
+    firstDateDay = firstDateDay.getDay();
+
+    new WcHTML({
+      firstDateDay: this.current.getDay(),
+      firstDate: wcFirstLastDates.firstDate,
+      lastDate: wcFirstLastDates.lastDate,
+      body: this.wcBody,
+    });
   }
 }
 
 class WcHTML {
-  constructor(firstDate, lastDate, body) {
+  constructor({ firstDateDay, firstDate, lastDate, body }) {
+    this.firstDateDay = firstDateDay;
     this.firstDate = firstDate;
     this.lastDate = lastDate;
     this.body = body;
+
     this.createHTML();
   }
 
   createHTML() {
     for (let day = this.firstDate; day <= this.lastDate; day++) {
-      this.body.appendChild(new WcDay(day).div);
+      const div = new WcDay(day).div;
+
+      if (day === this.firstDate) {
+        div.style.gridColumnStart = this.firstDateDay;
+      }
+
+      this.body.appendChild(div);
     }
   }
 }
