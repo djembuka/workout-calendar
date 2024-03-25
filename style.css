@@ -1,0 +1,35 @@
+:root {
+  --wc-day: 50px;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+}
+.page-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.wc-container {
+}
+.wc-body {
+  display: grid;
+  grid-template-columns: repeat(7, calc(var(--wc-day) + 2px));
+  grid-template-rows: repeat(5, calc(var(--wc-day) + 2px));
+  gap: 2px;
+}
+.wc-day {
+  width: var(--wc-day);
+  height: var(--wc-day);
+  border-radius: 3px;
+  border: 1px solid lightblue;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.wc-day:hover {
+  background-color: #eeeeff;
+}
