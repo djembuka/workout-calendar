@@ -14,6 +14,10 @@ class WorkoutCalendar {
     this.createHeaders();
     this.createBody();
     this.createDays();
+    this.createStatistics();
+
+    //events
+    this.clickDay();
   }
 
   createContainer() {
@@ -77,6 +81,34 @@ class WorkoutCalendar {
       lastDate: wcFirstLastDates.lastDate,
       body: this.wcBody,
     });
+  }
+
+  createStatistics() {
+    const div = document.createElement('div');
+    div.className = 'wc-statistics';
+    div.innerHTML = `
+      <div class="wc-statistics-header">Статистика</div>
+      <div class="wc-statistics-body"></div>
+    `;
+    this.wcContainer.appendChild(div);
+    this.wcStatisticsBody = div.querySelector('.wc-statistics-body');
+  }
+
+  clickDay() {
+    this.wcContainer.addEventListener('click', (e) => {
+      if (e.target.classList.contains('wc-day')) {
+        e.target.classList.toggle('wc-day--clicked');
+        this.setStatistics();
+      }
+    });
+  }
+
+  setStatistics() {
+    const workoutNumber =
+      this.wcBody.querySelectorAll('.wc-day--clicked').length;
+    this.wcStatisticsBody.innerHTML = workoutNumber
+      ? `Тренировок за март: ${workoutNumber}`
+      : '';
   }
 }
 

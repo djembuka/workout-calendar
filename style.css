@@ -47,6 +47,31 @@ body {
   align-items: center;
   cursor: pointer;
 }
+.wc-day.wc-day--clicked {
+  background-color: lightblue;
+}
 .wc-day:hover {
-  background-color: #eeeeff;
+  background-color: rgb(240, 250, 255);
+}
+.wc-day.wc-day--clicked:hover {
+  background-color: rgb(150, 200, 220);
+}
+
+/*Statistics*/
+.wc-statistics {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  width: 200px;
+  background-color: rgb(240, 250, 255);
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  z-index: 100;
+}
+.wc-statistics-header {
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 10px;
 }
